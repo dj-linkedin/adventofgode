@@ -9,7 +9,12 @@ import (
 )
 
 func fuel(mass int) int {
-	return ((mass / 3) - 2)
+	intermediate_result := ((mass / 3) - 2)
+	if intermediate_result > 0 {
+		return intermediate_result
+	} else {
+		return 0
+	}
 }
 
 func main() {
@@ -18,7 +23,11 @@ func main() {
 	for scanner.Scan() {
 		lineStr := scanner.Text()
 		num, _ := strconv.Atoi(lineStr)
-		total = total + fuel(num)
+		incremental_fuel := fuel(num)
+		for incremental_fuel > 0 {
+			total = total + incremental_fuel
+			incremental_fuel = fuel(incremental_fuel)
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
