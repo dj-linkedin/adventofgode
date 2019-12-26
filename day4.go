@@ -5,13 +5,23 @@ import (
 )
 
 func adjacent_digits(n int) bool {
+	run_length := 1
 	p := -1
 	for n > 0 {
 		if p == n%10 {
-			return true
+			run_length++
+		} else {
+			if 2 == run_length {
+				return true
+			} else {
+				run_length = 1
+			}
 		}
 		p = n % 10
 		n = n / 10
+	}
+	if 2 == run_length {
+		return true
 	}
 	return false
 }
