@@ -10,46 +10,49 @@ import (
 )
 
 type Pair struct {
-	X int
-	Y int
+	X     int
+	Y     int
+	Steps int
 }
 
 func list_of_positions(ops []string) []Pair {
 	// first position (the origin)
 	x := 0
 	y := 0
+	steps := 0
 	var positions []Pair
-	positions = append(positions, Pair{x, y})
+	positions = append(positions, Pair{x, y, steps})
 	for _, op := range ops {
+		value, _ := strconv.Atoi(op[1:])
 		if 'L' == op[0] {
-			value, _ := strconv.Atoi(op[1:])
 			for i := 0; i < value; i++ {
+				steps++
 				x--
-				positions = append(positions, Pair{x, y})
+				positions = append(positions, Pair{x, y, steps})
 			}
 			continue
 		}
 		if 'R' == op[0] {
-			value, _ := strconv.Atoi(op[1:])
 			for i := 0; i < value; i++ {
+				steps++
 				x++
-				positions = append(positions, Pair{x, y})
+				positions = append(positions, Pair{x, y, steps})
 			}
 			continue
 		}
 		if 'D' == op[0] {
-			value, _ := strconv.Atoi(op[1:])
 			for i := 0; i < value; i++ {
+				steps++
 				y--
-				positions = append(positions, Pair{x, y})
+				positions = append(positions, Pair{x, y, steps})
 			}
 			continue
 		}
 		if 'U' == op[0] {
-			value, _ := strconv.Atoi(op[1:])
 			for i := 0; i < value; i++ {
+				steps++
 				y++
-				positions = append(positions, Pair{x, y})
+				positions = append(positions, Pair{x, y, steps})
 			}
 			continue
 		}
@@ -84,11 +87,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
 	fmt.Println(len(wires))
-	p0 := Pair{0, 0}
 	for _, p1 := range list_of_positions(wires[0]) {
 		for _, p2 := range list_of_positions(wires[1]) {
-			if p1 == p2 {
-				fmt.Println(manhattan_distance(p0, p1), p1, p2)
+			if 0 == manhattan_distance(p1, p2) {
+				fmt.Println(p1.Steps+p2.Steps, p1, p2)
 			}
 		}
 	}
