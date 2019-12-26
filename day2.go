@@ -53,16 +53,20 @@ func process(i_a []int) []int {
 }
 
 func main() {
+	var program = []string{}
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		values := strings.Split(scanner.Text(), ",")
-		values[1] = "12"
-		values[2] = "2"
-		fmt.Println(strings.Join(
-			int_array_to_str_array(process(str_array_to_int_array(
-				values))), ","))
+		program = strings.Split(scanner.Text(), ",")
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+	}
+	for noun := 0; noun < 100; noun++ {
+		for verb := 0; verb < 100; verb++ {
+			values := program
+			values[1] = strconv.Itoa(noun)
+			values[2] = strconv.Itoa(verb)
+			fmt.Println(noun, verb, process(str_array_to_int_array(values))[0])
+		}
 	}
 }
